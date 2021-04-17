@@ -18,7 +18,7 @@ after_success:
   - docker push davidemmerich/multi-frontend
   - docker push davidemmerich/multi-proxy
   - docker push davidemmerich/multi-api
-  - docer push davidemmerich/multi-worker
+  - docker push davidemmerich/multi-worker
 
 deploy:
   provider: elasticbeanstalk
