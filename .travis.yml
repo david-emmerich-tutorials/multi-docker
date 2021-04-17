@@ -10,12 +10,24 @@ script:
 
 after_success:
   - docker build -t davidemmerich/multi-frontend ./frontend
-  - docker build -t davidemmerich/multi-nginx ./nginx
+  - docker build -t davidemmerich/multi-proxy ./proxy
   - docker build -t davidemmerich/multi-api ./api
   - docker build -t davidemmerich/multi-worker ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push davidemmerich/multi-frontend
-  - docker push davidemmerich/multi-nginx
+  - docker push davidemmerich/multi-proxy
   - docker push davidemmerich/multi-api
   - docer push davidemmerich/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: elasticbeanstalk-us-east-2-653447405869
+  bucket_path: docker_multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY

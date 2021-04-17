@@ -1,0 +1,31 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "frontend",
+      "image": "davidemmerich/multi-frontend",
+      "hostname": "frontend",
+      "essential": false
+    },
+    {
+      "name": "api",
+      "image": "davidemmerich/multi-api",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "davidemmerich/worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "name": "proxy",
+      "image": "davidemmerich/multi-proxy",
+      "hostname": "proxy",
+      "essential": true,
+      "portMappings": [{ "hostPort": 80, "containerPort": 80 }],
+      "links": ["frontend", "api"]
+    }
+  ]
+}
